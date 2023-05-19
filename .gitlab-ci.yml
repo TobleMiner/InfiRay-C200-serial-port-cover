@@ -1,0 +1,27 @@
+image: openscad/openscad
+
+stages:
+  - export
+  - export_release
+
+export:
+  stage: export
+  script:
+    - openscad -o serial_port_cover.stl sc240_cover.scad
+  artifacts:
+    paths:
+      - serial_port_cover.stl
+    expire_in: 1 week
+  rules:
+    - if: '$CI_COMMIT_TAG == null'
+
+export_release:
+  stage: export_release
+  script:
+    - openscad -o serial_port_cover.stl sc240_cover.scad
+  artifacts:
+    paths:
+      - serial_port_cover.stl
+    expire_in: 100 yrs
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
